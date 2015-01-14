@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>{{title}} documentation</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="generator" content="https://github.com/adrobisch/raml-tools">
+
+    <script type="text/javascript">
+        var protocol = ((document.location.protocol === 'https:') ? 'https:': 'http:');
+        document.write('<link rel="stylesheet" href="' + protocol + '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">');
+        document.write('<script type="text/javascript" src="' + protocol + '//code.jquery.com/jquery-1.11.0.min.js"><\/sc' + 'ript>');
+        document.write('<script type="text/javascript" src="' + protocol + '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"><\/sc' + 'ript>');
+    </script>
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
+    <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <style>
+      {{> style}}
+    </style>
+</head>
+
+<body data-spy="scroll" data-target="#sidebar">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9" role="main">
+                <div class="page-header">
+                    <h1>{{title}} documentation{{#if version}} <small>version {{version}}</small>{{/if}}</h1>
+                    <p><a href="{{baseUri}}">{{baseUri}}</a></p>
+
+                    {{#documentation}}
+                        <h3 id="{{uniqueId}}"><a href="#{{uniqueId}}">{{title}}</a></h3>
+                        {{md content}}
+                    {{/documentation}}
+                </div>
+                <h2>Resources</h2>
+                {{#resources}}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 id="{{uniqueId}}" class="panel-title">
+                                {{#if displayName}}
+                                    {{displayName}}
+                                {{/if}}
+                                {{#unless displayName}}
+                                    {{relativeUri}}
+                                {{/unless}}
+                            </h3>
+                        </div>
+
+                        <div class="panel-body">
+                            {{#if description}}
+                                <div class="resource-description">
+                                    {{md description}}
+                                </div>
+                            {{/if}}
+
+                            <div class="panel-group">
+                                {{> resource}}
+                            </div>
+                        </div>
+                    </div>
+                {{/resources}}
+                {{#unless consolidatedSchemas.empty}}
+                    <h2>Schemas</h2>
+                    {{#each consolidatedSchemas}}
+                      {{> schema}}
+                    {{/each}}
+                {{/unless}}
+            </div>
+
+            <div class="col-md-3">
+                <div id="sidebar" class="hidden-print affix" role="complementary">
+                    <ul class="nav nav-pills nav-stacked">
+                        {{#resources}}
+                            <li>
+                                <a href="#{{uniqueId}}">
+                                    {{#if displayName}}
+                                        {{displayName}}
+                                    {{/if}}
+                                    {{#unless displayName}}
+                                        {{relativeUri}}
+                                    {{/unless}}
+                                </a>
+                            </li>
+                        {{/resources}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

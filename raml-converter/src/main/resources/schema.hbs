@@ -1,0 +1,30 @@
+<a name="{{schemaName}}"></a>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 id="{{schemaName}}" class="panel-title">Schema: {{schemaName}}</h3>
+    </div>
+
+    <div class="panel-body">
+        <p class="description">{{schemaDescription}} - <span><i>{{schemaType}}</i></span></p>
+
+        <h4>Properties</h4>
+
+        <ul>
+        {{#each this.properties}}
+            <li>
+                <strong>{{name}}</strong>
+                {{#if definition.type}} <i>({{definition.type}})</i> {{/if}}
+                {{#if definition.targetType}} (<a href="#{{definition.targetType}}">{{definition.targetType}}</a>) {{/if}}
+                {{#unless definition.targetType}}
+                    {{#if definition.reference}} (<a href="#{{definition.reference}}">{{definition.reference}}</a>) {{/if}}
+                {{/unless}}
+                <p>{{md definition.description}}</p>
+            </li>
+        {{/each}}
+        </ul>
+        <h4 style="margin-top:15px">Schema Source</h4>
+        <pre>
+            <code class="json">{{schemaContent}}</code>
+        </pre>
+    </div>
+</div>

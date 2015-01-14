@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+            <a data-toggle="collapse" href="#{{../uniqueId}}_{{lower type}}">
+                <span class="badge badge_{{lower type}}">{{lower type}}{{lock securedBy}}</span>
+            </a>
+            &nbsp;{{md description}}
+    </div>
+    <div id="{{../uniqueId}}_{{lower type}}" class="panel-collapse collapse">
+        <div class="panel-body">
+            {{>action-body}}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<p>
+    <strong>Type: {{@key}}</strong>
+</p>
+{{#if formParameters}}
+  <strong>Form Parameters</strong>
+  <ul>
+    {{#each formParameters}}
+        <li>
+            <strong>{{@key}}</strong>
+            {{#each this}}
+                        <em>
+                          {{#if this.required}}
+                              required
+                          {{/if}}
+                          {{#if this.type}}
+                              ({{lower this.type}})
+                          {{/if}}
+                          {{#if this.enumeration}}
+                              one of {{this.enumeration}}
+                          {{/if}}
+                        </em>
+                      {{md description}}
+                      {{#if this.schema}}
+                          <p>
+                              <small>
+                                  <strong>Schema:</strong>
+                                  <code>{{this.schema}}</code>
+                              </small>
+                          </p>
+                      {{/if}}
+                      {{#if this.example}}
+                          <p>
+                              <small>
+                                  <strong>Example:</strong>
+                                  <code>{{this.example}}</code>
+                              </small>
+                          </p>
+                      {{/if}}
+                    </li>
+            {{/each}}
+    {{/each}}
+  </ul>
+{{/if}}
+{{#if this.schema}}
+  <strong>Schema:</strong>
+  <pre><code class="json">{{highlight this.schema}}</code></pre>
+{{/if}}
+{{#if this.example}}
+  <strong>Example:</strong>
+  <pre><code class="json">{{highlight this.example}}</code></pre>
+{{/if}}

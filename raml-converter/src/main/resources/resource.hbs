@@ -1,0 +1,22 @@
+<div class="panel panel-white">
+
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <span class="parent">{{parentUrl}}</span>{{relativeUri}}
+        </h4>
+    </div>
+
+    <div id="panel_{{uniqueId}}" class="panel-collapse">
+        <div class="panel-body">
+            <div class="list-group">
+                {{#actions}}
+                    {{> action}}
+                {{/actions}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#resources}}
+    {{> resource}}
+{{/resources}}

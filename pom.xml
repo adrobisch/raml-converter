@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>de.androbit</groupId>
+  <artifactId>raml-converter-root</artifactId>
+  <version>0.5-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>raml converter root pom</name>
+
+  <modules>
+    <module>raml-converter</module>
+    <module>raml-converter-maven-plugin</module>
+    <module>raml-converter-maven-plugin-example</module>
+  </modules>
+
+  <licenses>
+      <license>
+          <name>MIT</name>
+          <distribution>repo</distribution>
+      </license>
+  </licenses>
+
+  <scm>
+      <connection>scm:git:git://github.com/adrobisch/raml-converter.git</connection>
+      <developerConnection>scm:git:git@github.com:adrobisch/raml-converter.git</developerConnection>
+      <url>http://github.com/adrobisch/raml-converter</url>
+      <tag>HEAD</tag>
+  </scm>
+
+  <build>
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <configuration>
+                  <source>1.7</source>
+                  <target>1.7</target>
+                  <encoding>UTF-8</encoding>
+              </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-release-plugin</artifactId>
+              <version>2.4.1</version>
+              <dependencies>
+                  <dependency>
+                      <groupId>org.apache.maven.scm</groupId>
+                      <artifactId>maven-scm-api</artifactId>
+                      <version>1.8.1</version>
+                  </dependency>
+                  <dependency>
+                      <groupId>org.apache.maven.scm</groupId>
+                      <artifactId>maven-scm-provider-gitexe</artifactId>
+                      <version>1.8.1</version>
+                  </dependency>
+              </dependencies>
+          </plugin>
+      </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+        <id>bintray-adrobisch</id>
+        <name>bintray-adrobisch</name>
+        <url>http://dl.bintray.com/adrobisch/maven</url>
+        <layout>default</layout>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>bintray-adrobisch-maven-raml-converter</id>
+      <name>adrobisch-maven-raml-converter</name>
+      <url>https://api.bintray.com/maven/adrobisch/maven/raml-converter</url>
+    </repository>
+  </distributionManagement>
+
+</project>

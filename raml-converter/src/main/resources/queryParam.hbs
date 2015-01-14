@@ -1,0 +1,33 @@
+<li>
+    <strong>{{@key}}</strong>
+    <em>
+      {{#if this.required}}
+          required
+      {{/if}}
+      {{#if this.type}}
+         ({{lower this.type}})
+      {{/if}}
+      {{#if this.enumeration}}
+          one of {{this.enumeration}}
+      {{/if}}
+    </em>
+
+  {{md description}}
+
+  {{#if this.schema}}
+      <p>
+          <small>
+              <strong>Schema:</strong>
+              <code>{{this.schema}}</code>
+          </small>
+      </p>
+  {{/if}}
+  {{#if this.example}}
+      <p>
+          <small>
+              <strong>Example:</strong>
+              <code>{{this.example}}</code>
+          </small>
+      </p>
+  {{/if}}
+</li>

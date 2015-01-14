@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>de.androbit</groupId>
+    <artifactId>raml-converter-root</artifactId>
+    <version>0.5-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>raml-converter-maven-plugin-example</artifactId>
+  <packaging>jar</packaging>
+
+  <name>raml converter maven plugin usage example</name>
+
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>de.androbit</groupId>
+            <artifactId>raml-converter-maven-plugin</artifactId>
+            <version>0.4</version>
+            <configuration>
+                <raml>github.raml</raml>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>html</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+  </build>
+
+  <pluginRepositories>
+      <pluginRepository>
+        <id>bintray-adrobisch</id>
+        <url>http://dl.bintray.com/adrobisch/maven</url>
+      </pluginRepository>
+  </pluginRepositories>
+
+</project>
