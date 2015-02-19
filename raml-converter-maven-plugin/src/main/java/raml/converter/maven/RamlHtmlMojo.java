@@ -53,14 +53,21 @@ public class RamlHtmlMojo extends AbstractMojo {
     }
   }
 
-  private File getOutputFile(String fileName) {
-    String[] fileSegments = fileName.split("" + File.separatorChar);
-    String lastSegment = fileSegments[fileSegments.length -1];
-    return new File(getOutputDirectory().getAbsolutePath() + File.separatorChar + lastSegment);
+  File getOutputFile(String fileName) {
+    String lastSegment = fileName.substring(fileName.lastIndexOf(separatorChar()) + 1);
+    return new File(getOutputDirectory().getAbsolutePath() + separatorChar() + lastSegment);
+  }
+
+  protected char separatorChar() {
+    return File.separatorChar;
   }
 
   private File getOutputDirectory() {
-    File outputDirectory = new File(project.getBuild().getDirectory() + File.separatorChar + outputDir);
+    File outputDirectory = new File(project.getBuild().getDirectory() + separatorChar() + outputDir);
+    return mkdirs(outputDirectory);
+  }
+
+  File mkdirs(File outputDirectory) {
     outputDirectory.mkdirs();
     return outputDirectory;
   }
@@ -80,7 +87,7 @@ public class RamlHtmlMojo extends AbstractMojo {
 
       for (String element : classpath) {
         for (String ramlFilePath : ramlFiles) {
-          File ramlFile = new File(element + File.separatorChar + ramlFilePath);
+          File ramlFile = new File(element + separatorChar() + ramlFilePath);
           if (ramlFile.exists()) {
             urls.add(ramlFile.toURI().toURL());
           }
@@ -92,4 +99,8 @@ public class RamlHtmlMojo extends AbstractMojo {
     }
   }
 
+  public RamlHtmlMojo withProject(MavenProject project) {
+    this.project = project;
+    return this;
+  }
 }
