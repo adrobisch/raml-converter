@@ -17,9 +17,9 @@
         <plugin>
             <groupId>de.androbit</groupId>
             <artifactId>raml-converter-maven-plugin</artifactId>
-            <version>0.4</version>
+            <version>${project.version}</version>
             <configuration>
-                <raml>github.raml</raml>
+                <raml>music.raml</raml>
             </configuration>
             <executions>
                 <execution>

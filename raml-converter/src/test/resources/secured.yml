@@ -1,0 +1,4 @@
+queryParameters:
+        access_token:
+          description: The token to get authorized
+          type: string

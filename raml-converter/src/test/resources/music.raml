@@ -39,6 +39,7 @@ traits:
         pages:
           description: The number of pages to return
           type: number
+  - secured: !include secured.yml
 /songs:
   is: [ paged, secured ]
   get:

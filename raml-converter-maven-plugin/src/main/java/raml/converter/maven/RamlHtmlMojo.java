@@ -9,7 +9,10 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import raml.tools.html.Raml2HtmlConverter;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
@@ -42,15 +45,24 @@ public class RamlHtmlMojo extends AbstractMojo {
     }
   }
 
-  private void writeHtml(URL ramlStream) {
+  private void writeHtml(URL ramlFile) {
     String htmlFileName = raml + "." + extension;
     FileOutputStream fileOutputStream = getFileOutputStream(getOutputFile(htmlFileName));
+    String basePath = getParentDir(ramlFile);
+
     getLog().info(format("converting %s to html: %s", raml, htmlFileName));
+
     try {
-      new Raml2HtmlConverter().convert(ramlStream.openStream(), fileOutputStream);
+      new Raml2HtmlConverter()
+        .withRamlBasePath(basePath)
+        .convert(ramlFile.openStream(), fileOutputStream);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  String getParentDir(URL url) {
+    return new File(url.getFile()).getParentFile().getAbsolutePath();
   }
 
   File getOutputFile(String fileName) {

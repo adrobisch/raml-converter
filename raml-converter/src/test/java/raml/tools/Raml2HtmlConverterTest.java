@@ -1,16 +1,14 @@
 package raml.tools;
 
 import org.junit.Test;
-import org.raml.model.Raml;
-import org.raml.parser.visitor.RamlDocumentBuilder;
-import raml.tools.html.HtmlGenerator;
+import raml.tools.html.Raml2HtmlConverter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
-public class HtmlGeneratorTest {
+public class Raml2HtmlConverterTest {
   @Test
   public void shouldProcessExampleWithOutErrors() {
     String generatedHtml = generateHtml("example.raml");
@@ -29,10 +27,11 @@ public class HtmlGeneratorTest {
 
   private String generateHtml(String ramlFile) {
     InputStream ramlInput = getClass().getClassLoader().getResourceAsStream(ramlFile);
-    Raml raml = new RamlDocumentBuilder().build(ramlInput);
-    HtmlGenerator htmlGenerator = spy(HtmlGenerator.build().build());
-    new RamlTraversal(raml).withListener(htmlGenerator).traverse();
-    IoUtil.writeToFile(htmlGenerator.getOutput(), "target/test.html");
-    return htmlGenerator.getOutput();
+    ByteArrayOutputStream ramlOutput = new ByteArrayOutputStream();
+
+    new Raml2HtmlConverter().convert(ramlInput, ramlOutput);
+
+    IoUtil.writeToFile(ramlOutput.toString(), "target/test.html");
+    return ramlOutput.toString();
   }
 }
