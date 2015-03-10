@@ -1,4 +1,4 @@
-package raml.tools.html;
+package raml.tools.handlebars;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Helper;
@@ -8,7 +8,7 @@ import org.raml.model.SecurityReference;
 import java.io.IOException;
 import java.util.List;
 
-public class HandlebarsHelper {
+public class HandlebarsHelpers {
   public static Helper<Object> lowerCaseHelper() {
     return new Helper<Object>() {
 

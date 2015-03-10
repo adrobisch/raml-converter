@@ -2,6 +2,7 @@ package raml.tools;
 
 import org.junit.Test;
 import raml.tools.html.Raml2HtmlConverter;
+import raml.tools.util.IoUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -27,11 +28,8 @@ public class Raml2HtmlConverterTest {
 
   private String generateHtml(String ramlFile) {
     InputStream ramlInput = getClass().getClassLoader().getResourceAsStream(ramlFile);
-    ByteArrayOutputStream ramlOutput = new ByteArrayOutputStream();
-
-    new Raml2HtmlConverter().convert(ramlInput, ramlOutput);
-
-    IoUtil.writeToFile(ramlOutput.toString(), "target/test.html");
-    return ramlOutput.toString();
+    String ramlHtml = new Raml2HtmlConverter().convert(ramlInput, new ByteArrayOutputStream()).toString();
+    IoUtil.writeToFile(ramlHtml, "target/test.html");
+    return ramlHtml;
   }
 }

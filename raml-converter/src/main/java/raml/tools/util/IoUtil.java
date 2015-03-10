@@ -1,10 +1,10 @@
-package raml.tools;
+package raml.tools.util;
 
 import java.io.*;
 
 public class IoUtil {
-  public String contentFromFile(String fileName) {
-    return convertStreamToString(getClass().getClassLoader().getResourceAsStream(fileName));
+  public static String contentFromFile(String fileName) {
+    return convertStreamToString(IoUtil.class.getClassLoader().getResourceAsStream(fileName));
   }
 
   public static String convertStreamToString(java.io.InputStream is) {

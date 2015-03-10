@@ -1,4 +1,4 @@
-package raml.tools;
+package raml.tools.traversal;
 
 import org.raml.model.Raml;
 import org.raml.model.Resource;

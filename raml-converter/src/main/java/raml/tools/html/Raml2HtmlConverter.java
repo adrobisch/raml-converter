@@ -3,13 +3,15 @@ package raml.tools.html;
 import org.raml.model.Raml;
 import org.raml.parser.loader.DefaultResourceLoader;
 import org.raml.parser.visitor.RamlDocumentBuilder;
-import raml.tools.RamlTraversal;
+import raml.tools.handlebars.HandlebarsFactory;
+import raml.tools.model.RamlContext;
 
 import java.io.*;
 
 public class Raml2HtmlConverter {
 
   String ramlBasePath = null;
+  String mainTemplate = null;
 
   public void convert(String ramlFilePath, String outputFilePath) {
     try {
@@ -19,19 +21,19 @@ public class Raml2HtmlConverter {
     }
   }
 
-  public void convert(InputStream ramlFilePath, OutputStream fileOutput) {
+  public <T extends OutputStream> T convert(InputStream ramlFilePath, T outputStream) {
     try {
-      HtmlGenerator htmlGenerator = new HtmlGeneratorBuilder().build();
-      new RamlTraversal(parseRaml(ramlFilePath)).withListener(htmlGenerator).traverse();
-
-      fileOutput.write(htmlGenerator.getOutput().getBytes());
+      String ramlHtml = new Raml2HtmlRenderer(new RamlContext(parseRaml(ramlFilePath)), HandlebarsFactory.defaultHandlebars())
+        .renderFull(mainTemplate);
+      outputStream.write(ramlHtml.getBytes());
+      return outputStream;
     } catch (IOException e) {
       throw new RuntimeException(e);
     } finally {
-      if (fileOutput != null) {
+      if (outputStream != null) {
         try {
-          fileOutput.flush();
-          fileOutput.close();
+          outputStream.flush();
+          outputStream.close();
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
@@ -69,8 +71,14 @@ public class Raml2HtmlConverter {
     };
   }
 
+  public Raml2HtmlConverter withMainTemplate(String mainTemplate) {
+    this.mainTemplate = mainTemplate;
+    return this;
+  }
+
   public Raml2HtmlConverter withRamlBasePath(String ramlBasePath) {
     this.ramlBasePath = ramlBasePath;
     return this;
   }
+
 }
