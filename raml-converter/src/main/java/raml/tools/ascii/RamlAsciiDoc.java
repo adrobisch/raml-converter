@@ -11,20 +11,8 @@ import static org.asciidoctor.Asciidoctor.Factory.create;
 
 public class RamlAsciiDoc {
 
-  public String convert(File file, File outputFile) {
-    return asciiDoctor().convertFile(file, options(attributes()).toFile(outputFile));
-  }
-
-  public String convert(InputStream asciiDocStream) {
-    return asciiDoctor().convert(convertStreamToString(asciiDocStream), options(attributes()));
-  }
-
   public String render(InputStream asciiDocStream) {
     return asciiDoctor().render(convertStreamToString(asciiDocStream), options(attributes()));
-  }
-
-  public String render(File inputFile, File outputFile) {
-    return asciiDoctor().renderFile(inputFile, options(attributes()).toFile(outputFile));
   }
 
   private Asciidoctor asciiDoctor() {

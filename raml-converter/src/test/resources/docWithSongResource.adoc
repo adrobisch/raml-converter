@@ -1,4 +1,4 @@
 == Song Resource
 
-[resource="/songs"]
-raml::music.raml[]
+[path="/songs"]
+raml_resource::music.raml[]

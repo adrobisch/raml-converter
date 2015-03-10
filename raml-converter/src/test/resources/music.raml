@@ -43,9 +43,20 @@ traits:
 /songs:
   is: [ paged, secured ]
   get:
+    headers:
+      X-Vendor-Header:
+        description: a header required by the vendor
+        required: true
     queryParameters:
       genre:
         description: filter the songs by genre
+    responses:
+      200:
+        headers:
+          X-Vendor-Response-Header:
+            description: a response header
+        body:
+          application/json:
   post:
   /{songId}:
     get:

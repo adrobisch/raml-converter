@@ -1,0 +1,14 @@
+{{#unless this.empty}}
+    <h3 class="headers_heading">Headers</h3>
+    <ul class="headers_list">
+        {{#each this}}
+            <li class="header_item">
+                <strong>{{@key}}</strong>: ({{this.type}})
+                {{#if this.required}}
+                    <em>required</em>
+                {{/if}}
+                {{this.description}}
+            </li>
+        {{/each}}
+    </ul>
+{{/unless}}

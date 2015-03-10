@@ -1,14 +1,9 @@
 <h2>HTTP status code <a href="http://httpstatus.es/{{@key}}" target="_blank">{{@key}}</a></h2>
 {{md this.description}}
 
-{{#unless this.headers.empty}}
-  <h3>Headers</h3>
-  <ul>
-    {{#each this.headers}}
-        <li><strong>{{@key}}</strong>: ({{this.type}}) {{#if this.required}} <em>required</em>{{/if}} {{this.description}}</li>
-    {{/each}}
-  </ul>
-{{/unless}}
+{{#with this.headers}}
+    {{> header_list}}
+{{/with}}
 
 {{#unless this.body.empty}}
   <h3>Body</h3>

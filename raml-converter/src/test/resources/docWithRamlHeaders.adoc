@@ -1,0 +1,2 @@
+[path="/songs", method=GET]
+raml_headers::music.raml[]

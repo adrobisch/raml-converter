@@ -29,6 +29,32 @@
                 </execution>
             </executions>
         </plugin>
+        <plugin>
+            <groupId>org.asciidoctor</groupId>
+            <artifactId>asciidoctor-maven-plugin</artifactId>
+            <version>1.5.2</version>
+            <configuration>
+                <doctype>book</doctype>
+                <backend>html</backend>
+                <sourceHighlighter>coderay</sourceHighlighter>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>output-html</id>
+                    <phase>generate-resources</phase>
+                    <goals>
+                        <goal>process-asciidoc</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <dependencies>
+                <dependency>
+                    <groupId>de.androbit</groupId>
+                    <artifactId>raml-converter</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </plugin>
     </plugins>
   </build>
 
