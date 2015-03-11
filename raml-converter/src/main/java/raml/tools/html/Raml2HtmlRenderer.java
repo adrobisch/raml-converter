@@ -13,6 +13,8 @@ import raml.tools.util.IoUtil;
 import java.io.IOException;
 import java.util.Map;
 
+import static java.lang.String.format;
+
 public class Raml2HtmlRenderer {
 
   private final Handlebars handlebars;
@@ -39,21 +41,46 @@ public class Raml2HtmlRenderer {
     return renderClassPathTemplate(orDefault(resourceTemplateFile, "resource.hbs"), getResourceContext(uri));
   }
 
-  public String renderHeaderList(String uri, String method, String status) {
+  public String renderExample(String uri, String method, String status, String mimeType) {
+    Action action = getResourceContext(uri).getAction(ActionType.valueOf(method.toUpperCase()));
+
+    String exampleFormat = "<div class=\"listingblock\">" +
+      "<div class=\"content\">" +
+      "<pre class=\"CodeRay highlight raml_example\">%s</pre>" +
+      "</div>" +
+      "</div>";
+
+    if (status != null) {
+      String exampleForResponse = getResponseForAction(action, status).getBody().get(mimeType).getExample();
+      return String.format(exampleFormat, exampleForResponse);
+    } else {
+      return String.format(exampleFormat, action.getBody().get(mimeType).getExample());
+    }
+  }
+
+  public String renderStatusCodeList(String uri, String method, String status) {
     Action action = getResourceContext(uri).getAction(ActionType.valueOf(method.toUpperCase()));
     if (status != null) {
-      return renderResponseHeaders(uri, method, status, action);
+      return renderClassPathTemplate("header_list.hbs", getResponseForAction(action, status).getHeaders());
     }
     return renderClassPathTemplate("header_list.hbs", action.getHeaders());
   }
 
-  protected String renderResponseHeaders(String uri, String method, String status, Action action) {
+  public String renderHeaderList(String uri, String method, String status) {
+    Action action = getResourceContext(uri).getAction(ActionType.valueOf(method.toUpperCase()));
+    if (status != null) {
+      return renderClassPathTemplate("header_list.hbs", getResponseForAction(action, status).getHeaders());
+    }
+    return renderClassPathTemplate("header_list.hbs", action.getHeaders());
+  }
+
+  protected Response getResponseForAction(Action action, String status) {
     for (Map.Entry<String, Response> response: action.getResponses().entrySet()) {
       if (response.getKey().equals(status)) {
-        return renderClassPathTemplate("header_list.hbs", response.getValue().getHeaders());
+        return response.getValue();
       }
     }
-    throw new IllegalArgumentException(String.format("status %s does not exist for uri %s and method %s", status, uri, method));
+    throw new IllegalArgumentException(format("no response found for status %s in action %s", status, action));
   }
 
   public String renderRamlContext(String templateContent) {
@@ -61,9 +88,16 @@ public class Raml2HtmlRenderer {
   }
 
   private ResourceContext getResourceContext(String uri) {
+    // FIXME: support more the one level of subresources
     for (ResourceContext resourceContext: raml.getResources()) {
       if (resourceContext.getUri().equals(uri)) {
         return resourceContext;
+      }
+
+      for (ResourceContext subResource: resourceContext.getResources()) {
+        if (subResource.getUri().equals(uri)) {
+          return subResource;
+        }
       }
     }
     throw new IllegalArgumentException("resource not found in RAML: " + uri);

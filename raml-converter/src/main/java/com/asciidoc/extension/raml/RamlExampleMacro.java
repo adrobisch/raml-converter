@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RamlHeadersMacro extends RamlBlockMacro {
-  public RamlHeadersMacro(String macroName, Map<String, Object> config) {
+public class RamlExampleMacro extends RamlBlockMacro  {
+  public RamlExampleMacro(String macroName, Map<String, Object> config) {
     super(macroName, config);
   }
 
@@ -17,13 +17,15 @@ public class RamlHeadersMacro extends RamlBlockMacro {
     try {
       RamlMacroAttributes macroAttributes = new RamlMacroAttributes(attributes);
 
-      String headersHtml = htmlRenderer(parent, ramlFileName).renderHeaderList(macroAttributes.path(),
+      String exampleHtml = htmlRenderer(parent, ramlFileName).renderExample(macroAttributes.path(),
         macroAttributes.method(),
-        macroAttributes.status());
+        macroAttributes.status(),
+        macroAttributes.mimeType());
 
-      return createBlock(parent, "pass", Arrays.asList(headersHtml), attributes, new HashMap<>());
+      return createBlock(parent, "pass", Arrays.asList(exampleHtml), attributes, new HashMap<>());
     } catch (Exception e) {
       throw LogUtil.loggedException(new RuntimeException(e));
     }
   }
+
 }

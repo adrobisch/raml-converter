@@ -12,8 +12,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.logging.Logger;
+
+import static raml.tools.util.LogUtil.loggedException;
 
 public abstract class RamlBlockMacro extends BlockMacroProcessor {
+
+  Logger logger = Logger.getLogger(getClass().getName());
 
   Handlebars handlebars = createHandleBars();
 
@@ -26,7 +31,11 @@ public abstract class RamlBlockMacro extends BlockMacroProcessor {
   }
 
   protected Raml2HtmlRenderer htmlRenderer(AbstractBlock parent, String ramlFileName) {
-    return new Raml2HtmlRenderer(ramlContext(parent, ramlFileName), handlebars);
+    try {
+      return new Raml2HtmlRenderer(ramlContext(parent, ramlFileName), handlebars);
+    } catch(Exception e) {
+      throw loggedException(logger, new RuntimeException(e));
+    }
   }
 
   RamlContext ramlContext(AbstractBlock parent, String ramlFileName) {
@@ -40,17 +49,6 @@ public abstract class RamlBlockMacro extends BlockMacroProcessor {
 
   private InputStream classPathStream(String path) {
     return getClass().getClassLoader().getResourceAsStream(path);
-  }
-
-  protected <T> T requireAttribute(String name, Object value, Class<T> clazz) {
-    if (value == null) {
-      throw new IllegalArgumentException("value is required for " + name);
-    }
-    return getAttribute(value, clazz);
-  }
-
-  protected <T> T getAttribute(Object value, Class<T> clazz) {
-    return clazz.cast(value);
   }
 
 }

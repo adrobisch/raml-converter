@@ -57,7 +57,20 @@ traits:
             description: a response header
         body:
           application/json:
+            example: |
+              [
+               {
+                "title" : "Rainbows and Unicorns"
+               }
+              ]
   post:
+    body:
+      application/json:
+        example: |
+          {
+            "title": "foo"
+          }
+
   /{songId}:
     get:
       responses:

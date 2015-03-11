@@ -1,2 +1,8 @@
 [path="/songs", method=GET]
 raml_headers::../resources/music.raml[]
+
+[path="/songs/{songId}", method=GET]
+raml_headers::../resources/music.raml[]
+
+[path="/songs", method=POST, mimeType="application/json"]
+raml_example::../resources/music.raml[]
