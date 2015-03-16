@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RamlSchemaMacro extends RamlBlockMacro {
-  public RamlSchemaMacro(String macroName, Map<String, Object> config) {
+public class RamlStatusesMacro extends RamlBlockMacro {
+  public RamlStatusesMacro(String macroName, Map<String, Object> config) {
     super(macroName, config);
   }
 
@@ -17,9 +17,9 @@ public class RamlSchemaMacro extends RamlBlockMacro {
     try {
       RamlMacroAttributes macroAttributes = new RamlMacroAttributes(attributes);
 
-      String schemaHtml = htmlRenderer(parent, ramlFileName).renderSchema(macroAttributes.name());
+      String statusesHtml = htmlRenderer(parent, ramlFileName).renderStatuses(macroAttributes.path(), macroAttributes.method());
 
-      return createBlock(parent, "pass", Arrays.asList(schemaHtml), attributes, new HashMap<>());
+      return createBlock(parent, "pass", Arrays.asList(statusesHtml), attributes, new HashMap<>());
     } catch (Exception e) {
       throw LogUtil.loggedException(new RuntimeException(e));
     }

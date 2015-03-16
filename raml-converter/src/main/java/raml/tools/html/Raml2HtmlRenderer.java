@@ -58,14 +58,6 @@ public class Raml2HtmlRenderer {
     }
   }
 
-  public String renderStatusCodeList(String uri, String method, String status) {
-    Action action = getResourceContext(uri).getAction(ActionType.valueOf(method.toUpperCase()));
-    if (status != null) {
-      return renderClassPathTemplate("header_list.hbs", getResponseForAction(action, status).getHeaders());
-    }
-    return renderClassPathTemplate("header_list.hbs", action.getHeaders());
-  }
-
   public String renderHeaderList(String uri, String method, String status) {
     Action action = getResourceContext(uri).getAction(ActionType.valueOf(method.toUpperCase()));
     if (status != null) {
@@ -80,6 +72,11 @@ public class Raml2HtmlRenderer {
     }
 
     return renderClassPathTemplate("schema.hbs", raml.getConsolidatedSchemas().get(schemaName));
+  }
+
+  public String renderStatuses(String uri, String method) {
+    Action action = getResourceContext(uri).getAction(ActionType.valueOf(method.toUpperCase()));
+    return renderClassPathTemplate("statuses.hbs", action.getResponses());
   }
 
   protected Response getResponseForAction(Action action, String status) {
