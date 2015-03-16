@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SchemaContext {
   String schemaUri;
@@ -16,6 +14,8 @@ public class SchemaContext {
   String schemaDescription;
   String schemaContent;
   List<Property> properties;
+
+  List<String> requiredProperties = new ArrayList<>();
 
   public SchemaContext(String schemaName, String schemaContent) {
     this.schemaName = schemaName;
@@ -34,20 +34,33 @@ public class SchemaContext {
     Map<String, Object> propertiesMap = (Map<String, Object>) schemaMap.get("properties");
 
     for (Map.Entry<String, Object> propertyEntry :  propertiesMap.entrySet()) {
-      PropertyDefinition propertyDefinition = readPropertyDefinitionFromMap((Map<String, Object>) propertyEntry.getValue());
+      PropertyDefinition propertyDefinition = readPropertyDefinitionFromMap(
+        propertyEntry.getKey(),
+        (Map<String, Object>) propertyEntry.getValue()
+      );
       properties.add(new Property(propertyEntry.getKey(), propertyDefinition));
     }
+
+    requiredProperties.addAll(getRequiredProperties(schemaMap));
 
     return properties;
   }
 
-  private PropertyDefinition readPropertyDefinitionFromMap(Map<String, Object> propertyDefinitionMap) {
+  private List getRequiredProperties(Map<String, Object> schemaMap) {
+    if (schemaMap.get("required") != null) {
+      return (List) schemaMap.get("required");
+    }
+    return Collections.emptyList();
+  }
+
+  private PropertyDefinition readPropertyDefinitionFromMap(String propertyName, Map<String, Object> propertyDefinitionMap) {
     String type = (String) propertyDefinitionMap.get("type");
     String description = (String) propertyDefinitionMap.get("description");
     String reference = (String) propertyDefinitionMap.get("$ref");
     String targetType = (String) propertyDefinitionMap.get("targetType");
 
     return new PropertyDefinition(description, type)
+      .withName(propertyName)
       .withReference(reference)
       .withTargetType(targetType);
   }
@@ -107,14 +120,14 @@ public class SchemaContext {
 
   }
 
-  static class PropertyDefinition {
+  class PropertyDefinition {
     String description;
     String type;
-    List<String> requiredFields;
     int minimum;
     int maximum;
     String reference;
     String targetType;
+    String name;
 
     public PropertyDefinition(String description, String type) {
       this.description = description;
@@ -147,6 +160,14 @@ public class SchemaContext {
       return this;
     }
 
+    public PropertyDefinition withName(String propertyName) {
+      this.name = propertyName;
+      return this;
+    }
+
+    public boolean getRequired() {
+      return requiredProperties.contains(name);
+    }
   }
 
   @Override

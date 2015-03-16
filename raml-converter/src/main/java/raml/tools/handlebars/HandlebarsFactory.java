@@ -15,7 +15,7 @@ public class HandlebarsFactory {
     handlebars.registerHelper("md", new MarkdownHelper());
     handlebars.registerHelper("lower", HandlebarsHelpers.lowerCaseHelper());
     handlebars.registerHelper("lock", HandlebarsHelpers.lockHelper());
-    handlebars.registerHelper("highlight", HandlebarsHelpers.highlitghHelper());
+    handlebars.registerHelper("highlight", HandlebarsHelpers.highlightHelper());
     handlebars.registerHelper("preOrLink", HandlebarsHelpers.preOrLink());
     return handlebars;
   }

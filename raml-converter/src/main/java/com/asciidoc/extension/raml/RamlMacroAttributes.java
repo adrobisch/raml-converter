@@ -9,6 +9,7 @@ public class RamlMacroAttributes {
   private static final String METHOD_ATTRIBUTE = "method";
   private static final String STATUS_ATTRIBUTE = "status";
   private static final String MIME_TYPE_ATTRIBUTE = "mimeType";
+  private static final String NAME_ATTRIBUTE = "name";
 
   Map<String, Object> attributes;
 
@@ -30,6 +31,10 @@ public class RamlMacroAttributes {
 
   public String mimeType() {
     return requireAttribute(MIME_TYPE_ATTRIBUTE, attributes.get(MIME_TYPE_ATTRIBUTE), String.class);
+  }
+
+  public String name() {
+    return requireAttribute(NAME_ATTRIBUTE, attributes.get(NAME_ATTRIBUTE), String.class);
   }
 
   public <T> T requireAttribute(String name, Object value, Class<T> clazz) {

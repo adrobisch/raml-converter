@@ -74,6 +74,14 @@ public class Raml2HtmlRenderer {
     return renderClassPathTemplate("header_list.hbs", action.getHeaders());
   }
 
+  public String renderSchema(String schemaName) {
+    if (raml.getConsolidatedSchemas().get(schemaName) == null) {
+      throw new IllegalArgumentException("schema does not exist: " + schemaName);
+    }
+
+    return renderClassPathTemplate("schema.hbs", raml.getConsolidatedSchemas().get(schemaName));
+  }
+
   protected Response getResponseForAction(Action action, String status) {
     for (Map.Entry<String, Response> response: action.getResponses().entrySet()) {
       if (response.getKey().equals(status)) {

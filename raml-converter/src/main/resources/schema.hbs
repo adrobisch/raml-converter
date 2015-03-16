@@ -1,30 +1,38 @@
-<a name="{{schemaName}}"></a>
-<div class="panel panel-default">
+<a class="schema-anchor" name="{{schemaName}}"></a>
+<div class="raml-schema panel panel-default">
     <div class="panel-heading">
-        <h3 id="{{schemaName}}" class="panel-title">Schema: {{schemaName}}</h3>
+        <h3 id="{{schemaName}}" class="schema-heading panel-title">
+            <span class="header-prefix">Schema</span>
+            <span class="schema-name">{{schemaName}}</span>
+        </h3>
     </div>
 
     <div class="panel-body">
-        <p class="description">{{schemaDescription}} - <span><i>{{schemaType}}</i></span></p>
+        <p class="schema-description">
+            <span class="schema-description">{{schemaDescription}}</span>
+            <span class="schema-type">{{schemaType}}</span>
+        </p>
+        <h4 class="schema-properties-heading">Properties</h4>
 
-        <h4>Properties</h4>
-
-        <ul>
+        <div class="schema-properties">
         {{#each this.properties}}
-            <li>
-                <strong>{{name}}</strong>
-                {{#if definition.type}} <i>({{definition.type}})</i> {{/if}}
-                {{#if definition.targetType}} (<a href="#{{definition.targetType}}">{{definition.targetType}}</a>) {{/if}}
+            <div>
+                <span class="property-name">{{name}}</span>
+                {{#if definition.type}} <span class="property-type">({{definition.type}})</span> {{/if}}
+                {{#if definition.targetType}} <span class="property-target-type"><a href="#{{definition.targetType}}">{{definition.targetType}}</a></span> {{/if}}
                 {{#unless definition.targetType}}
-                    {{#if definition.reference}} (<a href="#{{definition.reference}}">{{definition.reference}}</a>) {{/if}}
+                    {{#if definition.reference}} <span class="property-reference"><a href="#{{definition.reference}}">{{definition.reference}}</a></span> {{/if}}
                 {{/unless}}
-                <p>{{md definition.description}}</p>
-            </li>
+                {{#if definition.required}} <span class="property-required">required</span> {{/if}}
+                <p class="property-description">{{md definition.description}}</p>
+            </div>
         {{/each}}
-        </ul>
-        <h4 style="margin-top:15px">Schema Source</h4>
-        <pre>
-            <code class="json">{{schemaContent}}</code>
-        </pre>
+        </div>
+        <div class="schema-source">
+            <h4 class="schema-source-heading">Schema Source</h4>
+            <pre>
+                <code class="json">{{schemaContent}}</code>
+            </pre>
+        </div>
     </div>
 </div>

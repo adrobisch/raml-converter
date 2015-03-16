@@ -22,7 +22,7 @@ public class HandlebarsHelpers {
     };
   }
 
-  public static Helper<Object> highlitghHelper() {
+  public static Helper<Object> highlightHelper() {
     return new Helper<Object>() {
       @Override
       public CharSequence apply(Object o, Options options) throws IOException {
