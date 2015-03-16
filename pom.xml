@@ -143,11 +143,6 @@
             <name>Sonatype Nexus release repository</name>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-        <repository>
-            <id>bintray-adrobisch-maven-raml-converter</id>
-            <name>adrobisch-maven-raml-converter</name>
-            <url>https://api.bintray.com/maven/adrobisch/maven/raml-converter</url>
-        </repository>
     </distributionManagement>
 
 </project>
