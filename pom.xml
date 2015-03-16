@@ -3,7 +3,7 @@
 
     <groupId>de.androbit</groupId>
     <artifactId>raml-converter-root</artifactId>
-    <version>0.6</version>
+    <version>0.7-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>raml converter root pom</name>
@@ -26,7 +26,7 @@
         <connection>scm:git:git://github.com/adrobisch/raml-converter.git</connection>
         <developerConnection>scm:git:git@github.com:adrobisch/raml-converter.git</developerConnection>
         <url>http://github.com/adrobisch/raml-converter</url>
-        <tag>raml-converter-root-0.6</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <developers>
