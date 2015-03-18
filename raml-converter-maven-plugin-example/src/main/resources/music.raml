@@ -19,7 +19,9 @@ schemas:
         "description": "A canonical song",
         "properties": {
           "title":  { "type": "string", "description": "The title of the Song"},
-          "artist": { "type": "string" },
+          "artist": { "type": "string", "description": ["The artist.",
+                                                        "",
+                                                        "This is a multiline description"] },
           "link": { "$ref": "halLink", "targetType": "artist" }
         },
         "required": [ "title", "artist" ]

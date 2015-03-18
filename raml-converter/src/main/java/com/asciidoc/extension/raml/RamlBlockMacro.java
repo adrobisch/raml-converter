@@ -6,11 +6,7 @@ import org.asciidoctor.extension.BlockMacroProcessor;
 import raml.tools.handlebars.HandlebarsFactory;
 import raml.tools.html.Raml2HtmlRenderer;
 import raml.tools.model.RamlContext;
-import raml.tools.util.RamlParser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -21,6 +17,8 @@ public abstract class RamlBlockMacro extends BlockMacroProcessor {
   Logger logger = Logger.getLogger(getClass().getName());
 
   Handlebars handlebars = createHandleBars();
+
+  RamlContextFactory ramlContextFactory = new RamlContextFactory();
 
   public RamlBlockMacro(String macroName, Map<String, Object> config) {
     super(macroName, config);
@@ -38,17 +36,11 @@ public abstract class RamlBlockMacro extends BlockMacroProcessor {
     }
   }
 
-  RamlContext ramlContext(AbstractBlock parent, String ramlFileName) {
-    try {
-      File docfile = new File(parent.document().attributes().get("docdir").toString() + File.separatorChar + ramlFileName);
-      return new RamlContext(new RamlParser().parseRaml(docfile.getParent(), new FileInputStream(docfile)));
-    } catch (Exception e) {
-      return new RamlContext(new RamlParser().parseRaml(classPathStream(ramlFileName)));
-    }
+  RamlContext ramlContext(AbstractBlock parentBlock, String ramlFileName) {
+    return getRamlContextFactory().ramlContext(parentBlock.document().attributes().get("docdir").toString(), ramlFileName);
   }
 
-  private InputStream classPathStream(String path) {
-    return getClass().getClassLoader().getResourceAsStream(path);
+  public RamlContextFactory getRamlContextFactory() {
+    return ramlContextFactory;
   }
-
 }

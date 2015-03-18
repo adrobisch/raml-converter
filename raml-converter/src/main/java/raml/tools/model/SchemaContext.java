@@ -55,14 +55,37 @@ public class SchemaContext {
 
   private PropertyDefinition readPropertyDefinitionFromMap(String propertyName, Map<String, Object> propertyDefinitionMap) {
     String type = (String) propertyDefinitionMap.get("type");
-    String description = (String) propertyDefinitionMap.get("description");
+    String description = createDescription(propertyDefinitionMap);
     String reference = (String) propertyDefinitionMap.get("$ref");
     String targetType = (String) propertyDefinitionMap.get("targetType");
+    Boolean required = (Boolean) propertyDefinitionMap.get("required");
 
     return new PropertyDefinition(description, type)
       .withName(propertyName)
       .withReference(reference)
-      .withTargetType(targetType);
+      .withTargetType(targetType)
+      .withRequired(required);
+  }
+
+  private String createDescription(Map<String, Object> propertyDefinitionMap) {
+    Object description = propertyDefinitionMap.get("description");
+    if (description == null) {
+      return null;
+    }
+    if (description instanceof String) {
+      return (String) description;
+    } else if (description instanceof List){
+      return joinDescription((List) description);
+    }
+    throw new IllegalArgumentException("unknown type of description found");
+  }
+
+  private String joinDescription(List<String> description) {
+    StringBuilder descriptionBuffer = new StringBuilder();
+    for (String line: description) {
+      descriptionBuffer.append(line).append("\n");
+    }
+    return descriptionBuffer.toString();
   }
 
   Map schemaAsMap(String schemaContent) {
@@ -122,6 +145,7 @@ public class SchemaContext {
 
   class PropertyDefinition {
     String description;
+    Boolean required;
     String type;
     int minimum;
     int maximum;
@@ -165,7 +189,15 @@ public class SchemaContext {
       return this;
     }
 
+    public PropertyDefinition withRequired(Boolean required) {
+      this.required = required;
+      return this;
+    }
+
     public boolean getRequired() {
+      if (required != null && required) {
+        return true;
+      }
       return requiredProperties.contains(name);
     }
   }

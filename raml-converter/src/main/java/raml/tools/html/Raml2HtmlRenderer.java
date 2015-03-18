@@ -79,6 +79,10 @@ public class Raml2HtmlRenderer {
     return renderClassPathTemplate("statuses.hbs", action.getResponses());
   }
 
+  public String getBaseUri() {
+    return raml.getBaseUri();
+  }
+
   protected Response getResponseForAction(Action action, String status) {
     for (Map.Entry<String, Response> response: action.getResponses().entrySet()) {
       if (response.getKey().equals(status)) {

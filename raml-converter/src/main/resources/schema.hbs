@@ -16,15 +16,19 @@
 
         <div class="schema-properties">
         {{#each this.properties}}
-            <div>
-                <span class="property-name">{{name}}</span>
-                {{#if definition.type}} <span class="property-type">({{definition.type}})</span> {{/if}}
-                {{#if definition.targetType}} <span class="property-target-type"><a href="#{{definition.targetType}}">{{definition.targetType}}</a></span> {{/if}}
-                {{#unless definition.targetType}}
-                    {{#if definition.reference}} <span class="property-reference"><a href="#{{definition.reference}}">{{definition.reference}}</a></span> {{/if}}
-                {{/unless}}
-                {{#if definition.required}} <span class="property-required">required</span> {{/if}}
-                <p class="property-description">{{md definition.description}}</p>
+            <div class="schema-property">
+                <div class="property-definition">
+                    <span class="property-name">{{name}}</span>
+                    {{#if definition.type}} <span class="property-type">({{definition.type}})</span> {{/if}}
+                    {{#if definition.targetType}} <span class="property-target-type"><a href="#{{definition.targetType}}">{{definition.targetType}}</a></span> {{/if}}
+                    {{#unless definition.targetType}}
+                        {{#if definition.reference}} <span class="property-reference"><a href="#{{definition.reference}}">{{definition.reference}}</a></span> {{/if}}
+                    {{/unless}}
+                    {{#if definition.required}} <span class="property-required"><span class="required-text">required</span></span> {{/if}}
+                </div>
+                <div class="property-description">
+                    {{md definition.description}}
+                </div>
             </div>
         {{/each}}
         </div>

@@ -1,6 +1,8 @@
 {{#each this}}
-<a class="status_link" href="http://httpstatus.es/{{@key}}" target="_blank">{{@key}}</a>
-<div class="status_description">
-  {{md this.description}}
+<div class="http_status">
+  <a class="status_link" href="http://httpstatus.es/{{@key}}" target="_blank">{{@key}}</a>
+  <div class="status_description">
+    {{md this.description}}
+  </div>
 </div>
 {{/each}}
