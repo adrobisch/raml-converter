@@ -12,3 +12,5 @@ raml_example::../resources/music.raml[]
 
 [name="song"]
 raml_schema::../resources/music.raml[]
+
+raml_baseuri:../resources/music.raml[]
