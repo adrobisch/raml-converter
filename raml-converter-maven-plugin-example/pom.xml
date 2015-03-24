@@ -50,19 +50,12 @@
             <dependencies>
                 <dependency>
                     <groupId>de.androbit</groupId>
-                    <artifactId>raml-converter</artifactId>
+                    <artifactId>raml-converter-all</artifactId>
                     <version>${project.version}</version>
                 </dependency>
             </dependencies>
         </plugin>
     </plugins>
   </build>
-
-  <pluginRepositories>
-      <pluginRepository>
-        <id>bintray-adrobisch</id>
-        <url>http://dl.bintray.com/adrobisch/maven</url>
-      </pluginRepository>
-  </pluginRepositories>
 
 </project>

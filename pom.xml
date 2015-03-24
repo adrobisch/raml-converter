@@ -7,9 +7,12 @@
     <packaging>pom</packaging>
 
     <name>raml converter root pom</name>
+    <description>toolkit to use and convert RAML files</description>
+    <url>http://github.com/adrobisch/raml-converter</url>
 
     <modules>
         <module>raml-converter</module>
+        <module>raml-converter-all</module>
         <module>raml-converter-maven-plugin</module>
         <module>raml-converter-maven-plugin-example</module>
     </modules>

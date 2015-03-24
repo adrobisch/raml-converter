@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.androbit</groupId>
+        <artifactId>raml-converter-root</artifactId>
+        <version>0.8-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>raml-converter-all</artifactId>
+    <packaging>jar</packaging>
+
+    <name>raml converter with dependencies</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.raml</groupId>
+            <artifactId>raml-parser</artifactId>
+            <version>0.9-20141227.230728-71</version>
+        </dependency>
+        <dependency>
+            <groupId>de.androbit</groupId>
+            <artifactId>raml-converter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
