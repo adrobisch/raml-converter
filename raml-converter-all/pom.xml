@@ -16,7 +16,7 @@
         <dependency>
             <groupId>org.raml</groupId>
             <artifactId>raml-parser</artifactId>
-            <version>0.9-20141227.230728-71</version>
+            <version>0.8.11</version>
         </dependency>
         <dependency>
             <groupId>de.androbit</groupId>

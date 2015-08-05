@@ -125,15 +125,6 @@
         </profile>
     </profiles>
 
-    <repositories>
-        <repository>
-            <id>bintray-adrobisch</id>
-            <name>bintray-adrobisch</name>
-            <url>http://dl.bintray.com/adrobisch/maven</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
-
     <distributionManagement>
         <snapshotRepository>
             <id>sonatype-nexus-snapshots</id>
