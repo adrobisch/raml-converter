@@ -17,7 +17,7 @@
             <h3>URI Parameters</h3>
             <ul>
                 {{#each uriParameters}}
-                    <li><strong>{{this.displayName}}</strong>: {{lower this.type}}</li>
+                  {{> namedParam}}
                 {{/each}}
             </ul>
         {{/unless}}
@@ -35,7 +35,7 @@
             <h3>Query Parameters</h3>
             <ul>
                 {{#each queryParameters}}
-                    {{> queryParam}}
+                  {{> namedParam}}
                 {{/each}}
             </ul>
         {{/unless}}
