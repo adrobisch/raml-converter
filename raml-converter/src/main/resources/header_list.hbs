@@ -2,15 +2,7 @@
     <h3 class="headers_heading">Headers</h3>
     <ul class="headers_list">
         {{#each this}}
-            <li class="header_item">
-                <span class="header_name">{{@key}}</span>
-                <span class="header_type">({{this.type}})</span>
-                {{#if this.required}}
-                <span class="header_required"><span class="required_text">required</span></span>
-                {{/if}}
-                <span class="header_description">{{this.description}}</span>
-                <span class="header_example">{{this.example}}</span>
-            </li>
+          {{> namedParam}}
         {{/each}}
     </ul>
 {{/unless}}
