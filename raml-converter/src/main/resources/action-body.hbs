@@ -26,7 +26,7 @@
             <h3>Headers</h3>
             <ul>
                 {{#each headers}}
-                    <li><strong>{{@key}}</strong>: ({{lower this.type}}) {{#if this.required}} <em>required</em>{{/if}} {{this.description}}</li>
+                  {{> namedParam}}
                 {{/each}}
             </ul>
         {{/unless}}
