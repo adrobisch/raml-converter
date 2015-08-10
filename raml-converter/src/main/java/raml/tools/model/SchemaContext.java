@@ -33,6 +33,10 @@ public class SchemaContext {
 
     Map<String, Object> propertiesMap = (Map<String, Object>) schemaMap.get("properties");
 
+    if (propertiesMap == null) {
+      return properties;
+    }
+
     for (Map.Entry<String, Object> propertyEntry :  propertiesMap.entrySet()) {
       PropertyDefinition propertyDefinition = readPropertyDefinitionFromMap(
         propertyEntry.getKey(),
