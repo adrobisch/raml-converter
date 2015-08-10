@@ -5,8 +5,7 @@ import org.raml.model.parameter.Header;
 import org.raml.model.parameter.QueryParameter;
 import org.raml.model.parameter.UriParameter;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ActionContext {
   Action action;
@@ -32,11 +31,22 @@ public class ActionContext {
   }
 
   public Map<String, MimeType> getBody() {
-    return action.getBody();
+    return action.getBody() == null ? Collections.<String, MimeType>emptyMap() : action.getBody();
   }
 
-  public Map<String, Response> getResponses() {
-    return action.getResponses();
+  public Map<String, ResponseContext> getResponses() {
+    if (action.getResponses() == null) {
+        return Collections.emptyMap();
+    }
+    return responseContexts();
+  }
+
+  private Map<String, ResponseContext> responseContexts() {
+    Map<String, ResponseContext> responses = new HashMap<>();
+    for (Map.Entry<String, Response> response : action.getResponses().entrySet()) {
+        responses.put(response.getKey(), new ResponseContext(response.getValue()));
+    }
+    return responses;
   }
 
   public Resource getResource() {

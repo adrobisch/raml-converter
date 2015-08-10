@@ -8,14 +8,7 @@
 {{#unless this.body.empty}}
   <h3>Body</h3>
     {{#each this.body}}
-        <p><strong>Type: {{@key}}</strong></p>
-      {{#if this.schema}}
-          <strong>Schema:</strong>
-         {{preOrLink this.schema}}
-      {{/if}}
-      {{#if this.example}}
-          <strong>Example:</strong>
-          <pre><code class="json">{{highlight this.example}}</code></pre>
-      {{/if}}
+      {{> body}}
+      <hr/>
     {{/each}}
 {{/unless}}

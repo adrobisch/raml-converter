@@ -1,8 +1,9 @@
-<p>
-    <strong>Type: {{@key}}</strong>
-</p>
+<div class="body-type">
+    <strong class="body-label">Type:</strong> <code id="key">{{@key}}</code>
+</div>
 {{#if formParameters}}
-  <strong>Form Parameters</strong>
+<div class="body-form-parameters">
+  <strong class="body-label">Form Parameters:</strong>
   <ul>
     {{#each formParameters}}
         <li>
@@ -40,12 +41,17 @@
             {{/each}}
     {{/each}}
   </ul>
+</div>
 {{/if}}
 {{#if this.schema}}
-  <strong>Schema:</strong>
-  <pre><code class="json">{{highlight this.schema}}</code></pre>
+<div class="body-schema">
+    <strong class="body-label">Schema:</strong>
+   {{preOrLink this.schema}}
+</div>
 {{/if}}
 {{#if this.example}}
-  <strong>Example:</strong>
-  <pre><code class="json">{{highlight this.example}}</code></pre>
+<div class="body-example">
+    <strong class="body-label">Example:</strong>
+    <pre><code class="json">{{highlight this.example}}</code></pre>
+</div>
 {{/if}}
