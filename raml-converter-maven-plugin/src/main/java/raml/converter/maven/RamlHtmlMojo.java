@@ -46,7 +46,7 @@ public class RamlHtmlMojo extends AbstractMojo {
   }
 
   private void writeHtml(URL ramlFile) {
-    String htmlFileName = raml + "." + extension;
+    String htmlFileName = ramlFile.getFile() + "." + extension;
     FileOutputStream fileOutputStream = getFileOutputStream(getOutputFile(htmlFileName));
     String basePath = getParentDir(ramlFile);
 
