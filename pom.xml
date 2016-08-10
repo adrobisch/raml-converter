@@ -59,6 +59,12 @@
             <version>1.7.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-lagarto</artifactId>
+            <version>3.7.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

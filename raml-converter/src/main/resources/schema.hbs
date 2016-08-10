@@ -17,7 +17,7 @@
         <div class="schema-properties">
         {{#each this.properties}}
             <div class="schema-property">
-                <div class="property-definition">
+                <div class="property-definition" data-property="{{name}}">
                     <span class="property-name">{{name}}</span>
                     {{#if definition.type}} <span class="property-type">({{definition.type}})</span> {{/if}}
                     {{#if definition.targetType}} <span class="property-target-type"><a href="#{{definition.targetType}}">({{definition.targetType}})</a></span> {{/if}}

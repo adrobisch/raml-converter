@@ -37,38 +37,40 @@ public class SchemaContext {
       return properties;
     }
 
+    requiredProperties.addAll(getRequiredProperties(schemaMap));
+
     for (Map.Entry<String, Object> propertyEntry :  propertiesMap.entrySet()) {
       PropertyDefinition propertyDefinition = readPropertyDefinitionFromMap(
         propertyEntry.getKey(),
-        (Map<String, Object>) propertyEntry.getValue()
+        (Map<String, Object>) propertyEntry.getValue(),
+        requiredProperties
       );
       properties.add(new Property(propertyEntry.getKey(), propertyDefinition));
     }
 
-    requiredProperties.addAll(getRequiredProperties(schemaMap));
-
     return properties;
   }
 
-  private List getRequiredProperties(Map<String, Object> schemaMap) {
+  private List<String> getRequiredProperties(Map<String, Object> schemaMap) {
     if (schemaMap.get("required") != null) {
-      return (List) schemaMap.get("required");
+      return (List<String>) schemaMap.get("required");
     }
     return Collections.emptyList();
   }
 
-  private PropertyDefinition readPropertyDefinitionFromMap(String propertyName, Map<String, Object> propertyDefinitionMap) {
+  private PropertyDefinition readPropertyDefinitionFromMap(String propertyName, Map<String, Object> propertyDefinitionMap, List<String> requiredProperties) {
     String type = (String) propertyDefinitionMap.get("type");
     String description = createDescription(propertyDefinitionMap);
     String reference = (String) propertyDefinitionMap.get("$ref");
     String targetType = (String) propertyDefinitionMap.get("targetType");
-    Boolean required = (Boolean) propertyDefinitionMap.get("required");
+    List<String> localRequiredProperties = getRequiredProperties(propertyDefinitionMap);
 
     return new PropertyDefinition(description, type)
       .withName(propertyName)
       .withReference(reference)
       .withTargetType(targetType)
-      .withRequired(required);
+      .withRequiredProperties(localRequiredProperties)
+      .withRequired(requiredProperties.contains(propertyName));
   }
 
   private String createDescription(Map<String, Object> propertyDefinitionMap) {
@@ -149,13 +151,14 @@ public class SchemaContext {
 
   class PropertyDefinition {
     String description;
-    Boolean required;
+    List<String> requiredProperties;
     String type;
     int minimum;
     int maximum;
     String reference;
     String targetType;
     String name;
+    Boolean required = false;
 
     public PropertyDefinition(String description, String type) {
       this.description = description;
@@ -193,16 +196,22 @@ public class SchemaContext {
       return this;
     }
 
-    public PropertyDefinition withRequired(Boolean required) {
-      this.required = required;
+    public PropertyDefinition withRequiredProperties(List<String> requiredProperties) {
+      this.requiredProperties = requiredProperties;
       return this;
     }
 
-    public boolean getRequired() {
-      if (required != null && required) {
-        return true;
-      }
-      return requiredProperties.contains(name);
+    public List<String> getRequiredProperties() {
+      return requiredProperties;
+    }
+
+    public Boolean getRequired() {
+      return required;
+    }
+
+    public PropertyDefinition withRequired(Boolean required) {
+      this.required = required;
+      return this;
     }
   }
 

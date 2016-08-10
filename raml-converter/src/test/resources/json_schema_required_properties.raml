@@ -1,0 +1,42 @@
+#%RAML 0.8
+ 
+title: JSON Schema example
+baseUri: http://example.api.com/{version}
+version: v1
+
+schemas:
+  - toplevel: |
+      {
+        "$schema": "http://json-schema.org/schema",
+        "type": "object",
+        "description": "foo",
+        "properties": {
+          "toplevel": {
+            "type": "object",
+            "properties": {
+              "subprop": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "subprop"
+            ]
+          },
+          "subref" : {
+            "$ref": "sub"
+          }
+        },
+        "required" : ["toplevel", "subref"]
+      }
+  - sub: |
+      {
+        "$schema": "http://json-schema.org/schema",
+        "type": "object",
+        "description": "sub",
+        "properties": {
+          "subprop": {
+            "type": "string"
+          }
+        },
+        "required" : ["subprop"]
+      }
