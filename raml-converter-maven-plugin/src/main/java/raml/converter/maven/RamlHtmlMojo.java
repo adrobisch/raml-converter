@@ -46,11 +46,11 @@ public class RamlHtmlMojo extends AbstractMojo {
   }
 
   private void writeHtml(URL ramlFile) {
-    String htmlFileName = ramlFile.getFile() + "." + extension;
-    FileOutputStream fileOutputStream = getFileOutputStream(getOutputFile(htmlFileName));
+    File outputFile = getOutputFile(ramlFile);
+    FileOutputStream fileOutputStream = getFileOutputStream(outputFile);
     String basePath = getParentDir(ramlFile);
 
-    getLog().info(format("converting %s to html: %s", raml, htmlFileName));
+    getLog().info(format("converting %s to html: %s", raml, outputFile));
 
     try {
       new Raml2HtmlConverter()
@@ -65,17 +65,13 @@ public class RamlHtmlMojo extends AbstractMojo {
     return new File(url.getFile()).getParentFile().getAbsolutePath();
   }
 
-  File getOutputFile(String fileName) {
-    String lastSegment = fileName.substring(fileName.lastIndexOf(separatorChar()) + 1);
-    return new File(getOutputDirectory().getAbsolutePath() + separatorChar() + lastSegment);
-  }
-
-  protected char separatorChar() {
-    return File.separatorChar;
+  File getOutputFile(URL fileUrl) {
+      String fileName = new File(fileUrl.getFile()).getName() + "." + extension;
+      return new File(getOutputDirectory().getAbsolutePath(), fileName);
   }
 
   private File getOutputDirectory() {
-    File outputDirectory = new File(project.getBuild().getDirectory() + separatorChar() + outputDir);
+    File outputDirectory = new File(project.getBuild().getDirectory(), outputDir);
     return mkdirs(outputDirectory);
   }
 
@@ -94,12 +90,12 @@ public class RamlHtmlMojo extends AbstractMojo {
 
   Set<URL> getRamlFiles() {
     try {
-      Set<URL> urls = new HashSet<URL>();
+      Set<URL> urls = new HashSet<>();
       String[] ramlFiles = raml.split(",");
 
       for (String element : classpath) {
         for (String ramlFilePath : ramlFiles) {
-          File ramlFile = new File(element + separatorChar() + ramlFilePath);
+          File ramlFile = new File(element, ramlFilePath);
           if (ramlFile.exists()) {
             urls.add(ramlFile.toURI().toURL());
           }
@@ -111,7 +107,7 @@ public class RamlHtmlMojo extends AbstractMojo {
     }
   }
 
-  public RamlHtmlMojo withProject(MavenProject project) {
+  RamlHtmlMojo withProject(MavenProject project) {
     this.project = project;
     return this;
   }

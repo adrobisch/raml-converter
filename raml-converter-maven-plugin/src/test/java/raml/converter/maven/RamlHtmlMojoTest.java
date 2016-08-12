@@ -1,42 +1,29 @@
 package raml.converter.maven;
 
-import mockit.Expectations;
-import mockit.Mocked;
-import mockit.integration.junit4.JMockit;
 import org.apache.maven.project.MavenProject;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+import static org.mockito.Mockito.mock;
 
-@RunWith(JMockit.class)
 public class RamlHtmlMojoTest {
 
-  @Mocked
-  MavenProject mavenProject;
+  MavenProject mavenProject = mock(MavenProject.class, RETURNS_DEEP_STUBS);
 
   @Test
-  public void shouldSupportBackslashInOutputFileName() {
-    new Expectations() {{
-      mavenProject.getBuild().getDirectory();
-      result = "buildDir";
-    }};
+  public void returnsProperOutputFileForUrl() {
+    given(mavenProject.getBuild().getDirectory()).willReturn("buildDir");
 
-    File outputFile = new RamlHtmlMojo() {
-      @Override
-      protected char separatorChar() {
-        return '\\';
-      }
+    File outputFile = new RamlHtmlMojo()
+            .withProject(mavenProject)
+            .getOutputFile(getClass().getClassLoader().getResource("test.raml"));
 
-      @Override
-      File mkdirs(File outputDirectory) {
-        return outputDirectory;
-      }
-
-    }.withProject(mavenProject).getOutputFile("dir\\test.raml.html");
-
-    assertThat(outputFile.getPath()).endsWith("buildDir\\raml\\test.raml.html");
+    assertThat(outputFile.getName()).isEqualTo("test.raml.html");
+    assertThat(outputFile.getParentFile().getName()).isEqualTo("raml");
+    assertThat(outputFile.getParentFile().getParentFile().getName()).isEqualTo("buildDir");
   }
+
 }
