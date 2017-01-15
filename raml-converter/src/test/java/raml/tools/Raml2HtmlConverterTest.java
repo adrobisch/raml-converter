@@ -35,8 +35,10 @@ public class Raml2HtmlConverterTest {
     Jerry doc = jerry(generatedHtml);
 
     String topLevelRequiredText = doc.$("div[data-property=\"toplevel\"]").$(".property-required .required-text").text();
-
     assertThat(topLevelRequiredText).isEqualTo("required");
+
+    String draft3RequiredText = doc.$("div[data-property=\"draft3-required\"]").$(".property-required .required-text").text();
+    assertThat(draft3RequiredText).isEqualTo("required");
   }
 
   String generateHtml(String ramlFile) {

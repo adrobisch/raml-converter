@@ -1,12 +1,16 @@
 package raml.tools.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.std.StdArraySerializers;
 import com.google.common.base.Optional;
 
 import java.io.IOException;
 import java.util.*;
 
 public class SchemaContext {
+  private final static String JSON_SCHEMA_DRAFT_3 = "http://json-schema.org/draft-03/schema";
+  private final static String REQUIRED_KEY = "required";
+
   String schemaUri;
   String schemaType;
   private final Map<String, Object> schemaMap;
@@ -52,10 +56,26 @@ public class SchemaContext {
   }
 
   private List<String> getRequiredProperties(Map<String, Object> schemaMap) {
-    if (schemaMap.get("required") != null) {
-      return (List<String>) schemaMap.get("required");
+    if (!isSchemaVersionDraft3() &&
+            schemaMap.get(REQUIRED_KEY) != null &&
+            List.class.isAssignableFrom(schemaMap.get(REQUIRED_KEY).getClass())) {
+      return (List<String>) schemaMap.get(REQUIRED_KEY);
+    } else {
+      return Collections.emptyList();
     }
-    return Collections.emptyList();
+  }
+
+  private boolean isSchemaVersionDraft3() {
+    return schemaUri != null && schemaUri.equalsIgnoreCase(JSON_SCHEMA_DRAFT_3);
+  }
+
+  private Boolean isRequired(Map<String, Object> schemaMap) {
+    if (schemaMap.get(REQUIRED_KEY) != null &&
+            Boolean.class.isAssignableFrom(schemaMap.get(REQUIRED_KEY).getClass())) {
+      return (Boolean) schemaMap.get(REQUIRED_KEY);
+    } else {
+      return false;
+    }
   }
 
   private PropertyDefinition readPropertyDefinitionFromMap(String propertyName, Map<String, Object> propertyDefinitionMap, List<String> requiredProperties) {
@@ -63,6 +83,7 @@ public class SchemaContext {
     String description = createDescription(propertyDefinitionMap);
     String reference = (String) propertyDefinitionMap.get("$ref");
     String targetType = (String) propertyDefinitionMap.get("targetType");
+
     List<String> localRequiredProperties = getRequiredProperties(propertyDefinitionMap);
 
     return new PropertyDefinition(description, type)
@@ -70,7 +91,7 @@ public class SchemaContext {
       .withReference(reference)
       .withTargetType(targetType)
       .withRequiredProperties(localRequiredProperties)
-      .withRequired(requiredProperties.contains(propertyName));
+      .withRequired(requiredProperties.contains(propertyName) || isRequired(propertyDefinitionMap));
   }
 
   private String createDescription(Map<String, Object> propertyDefinitionMap) {
